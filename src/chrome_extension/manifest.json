@@ -1,0 +1,48 @@
+{
+  "manifest_version": 2,
+  "name": "GazeTracing",
+  "description": "stitp项目chrome插件展示平台",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Click here!",
+    "popup": "popup.html"
+  },
+  "permissions": [
+    "background",
+    "tabs",
+    "activeTab",
+    "notifications",
+    "storage",
+    "contextMenus",
+    "cookies",
+    "alarms",
+    "webNavigation",
+    "webRequest",
+    "webNavigation",
+    "webRequestBlocking",
+    "proxy",
+    "*://*/*",
+    "tabs",
+    "storage",
+    "unlimitedStorage",
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts":[
+    {
+      "matches":["*://*/*"],
+      "js":[
+        "content.js"
+      ]
+    }
+  ]
+}
