@@ -15,13 +15,13 @@
 #include <pxcsensemanager.h>  
 #include <pxcsession.h>
 #include <utilities\pxcsmoother.h>
-#include "util_render.h" 
+//#include "util_render.h" 
 #include <iostream>
 #include <stdio.h> 
 #include <opencv2/opencv.hpp>  
 #include <string.h>
 
-#define OUT_OF_SCREEN 2000
+#define OUT_OF_SCREEN 0
 
 using namespace cv;
 using namespace std;
@@ -67,7 +67,7 @@ extern volatile bool showimage;
 extern volatile bool cursorcontrol;
 extern volatile bool changepage;
 extern volatile bool teminateprocessing;
-
+int ARR[2] = {0,0};
 int eye_point_x = 2000;
 int eye_point_y = 2000;
 
@@ -457,6 +457,8 @@ extern int processing() {
 						PXCPointF32 smoothed2DPoint = smoother2D->SmoothValue(GazePoint);
 						eye_point_x = smoothed2DPoint.x;//float转int 信息丢失？
 						eye_point_y = smoothed2DPoint.y;
+						ARR[0] = eye_point_x;
+						ARR[1] = eye_point_y;
 						//SetCursorPos(eye_point_x, eye_point_y);
 						UpdateTracking();
 						//SetCursorPos(gazep.screenPoint.x, gazep.screenPoint.y);
@@ -580,6 +582,9 @@ extern int processing() {
 		waitKey(1);
 	}
 	CloseCalibWindows();
+	delete[] calibBuffer;
+	calibBuffer = NULL;
+	calibBuffersize = 0;         //清理calibration的缓存，为下次的校准做好准备                      
 	smoother2D->Release();
 	smootherFactory->Release();
 	facedata->Release();
