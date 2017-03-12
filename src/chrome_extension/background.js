@@ -77,33 +77,8 @@ function setStatus(state) {
   isStart = state;
 }
 
-/*chrome.runtime.onMessage.addListener(
-function(request, sender, sendResponse) {
-    console.log('holla');
-    chrome.tabs.captureVisibleTab(
-        null,
-       {"format":"png"},
-       function(dataUrl)
-        {
-            sendResponse({imgSrc:dataUrl});
-            chrome.tabs.create({
-    url:dataUrl,
-    active:true
-});
-        }
-    ); //remember that captureVisibleTab() is a statement
-    return true;
-});*/
+setInterval(function () { websocketQuery(); }, 50);
 
-// window.addEventListener("load", websocketInit, false);
-setInterval(function () { websocketQuery(); }, 100);
-
-/*var s = document.createElement('script');
-s.src = chrome.extension.getURL('html2canvas.js');
-(document.head||document.documentElement).appendChild(s);
-s.onload = function() {
-  s.parentNode.removeChild(s);
-};*/
 chrome.runtime.onMessage.addListener(
   function (data, sender, sendResponse) {
     console.log("ScrollHeight:" + data);

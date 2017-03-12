@@ -9,22 +9,31 @@ chrome.runtime.onMessage.addListener(
         if (request.type == "FROM_BACKGROUND") {
             console.log("processingdata...");
             var nArray = request.text;
-            processData(nArray);
+            var pArray = processData(nArray);
+            console.log(pArray); //
             console.log("drawingdata...");
-            drawing(nArray);
+            drawing(pArray);
             // saveImage();
         }
     });
+console.log("insert,success!");
+
 function drawing(nArray) {
-    var datacanvas = document.createElement("canvas");
-    datacanvas.width = window.innerWidth;
-    datacanvas.height = window.innerHeight;
+    var datacanvas = document.createElement("div");
+    datacanvas.width = $(document).Width;
+    datacanvas.height = $(document).Height;
     var body = document.querySelector("body");
     body.appendChild(datacanvas);
     datacanvas.setAttribute("id", "NOTEPAD");//需要通过popup/background.js 中注入css
-    var hm = new HeatMap(datacanvas, datacanvas.width, datacanvas.height);
-    hm.addData(nArray);
-    hm.render();
+    var config = {
+        container: body,
+        radius: 100,
+        maxOpacity: .5,
+        minOpacity: 0,
+        blur: .75
+    };
+    var heatmapInstance = h337.create(config);
+    heatmapInstance.addData(nArray);
 }
 //保存图片
 // function saveImage() {
@@ -36,12 +45,23 @@ function drawing(nArray) {
 // }
 
 function processData(nArray) {
+    var pArray = [];
     var tabheight = screen.height - window.innerHeight;
     for (var arr of nArray) {
         arr[1] = arr[1] + arr[2] - tabheight;//dealing with the scroll data
-        arr.pop();//delete the scroll data
+        arr[2] = 300;//delete the scroll data
+        object = array2object(arr);//transform the array into object
+        pArray.push(object);
     }
+    return pArray;
 }
 
-
+function array2object(arr) {
+    var object = { x: 0, y: 0, value: 0 };
+    object.x = arr[0];
+    object.y = arr[1];
+    object.value = arr[2];
+    console.log("2object_success");
+    return object;
+}
 

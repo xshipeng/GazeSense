@@ -1,5 +1,4 @@
 "use strict";
-//chrome.tabs.insertCSS(null,{file:"drawing.css"});
 var str1, str2;
 //得到从后台运行的 js 文件里的东西，即 socket.js
 var bgscrpt = chrome.extension.getBackgroundPage();
@@ -71,24 +70,20 @@ $(document).ready(function () {
 });
 
 function handlePage() {
-  chrome.tabs.insertCSS(null,{file:"drawing.css"});
+  chrome.tabs.insertCSS(null, { file: "drawing.css" });
   chrome.tabs.executeScript({
-    file: "heatmap.js"
+    file: "heatmap.min.js"
   });
   chrome.tabs.executeScript({
-    file: "html2canvas.js"
+    file: "jquery-3.1.1.min.js"
   });
+  // chrome.tabs.executeScript({
+  //   file: "html2canvas.js"
+  // });
   var nArray = bgscrpt.dataArray;
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ 
-  chrome.tabs.sendMessage(tabs[0].id, {type:"FROM_BACKGROUND",text:nArray});
-});
-}
-
-function processData(nArray) {
-  for (var arr of nArray) {
-    arr[1] = arr[1] + arr[2];//dealing with the scroll data
-    arr.pop();//delete the scroll data
-  }
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { type: "FROM_BACKGROUND", text: [[600,700,50],[800,900,40]]});
+  });
 }
 //save the canvas to image
 function saveImage(canvas) {

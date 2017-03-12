@@ -1,7 +1,7 @@
 #NOTEPAD {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
-  z-index: 2147483647;
-  background: transparent;
+  /*z-index: 2147483647;*/
+  background: transparent !important;
 }
