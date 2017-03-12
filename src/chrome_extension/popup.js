@@ -82,7 +82,7 @@ function handlePage() {
   // });
   var nArray = bgscrpt.dataArray;
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { type: "FROM_BACKGROUND", text: [[600,700,50],[800,900,40]]});
+    chrome.tabs.sendMessage(tabs[0].id, { type: "FROM_BACKGROUND", text: nArray});
   });
 }
 //save the canvas to image

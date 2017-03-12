@@ -27,7 +27,7 @@ function drawing(nArray) {
     datacanvas.setAttribute("id", "NOTEPAD");//需要通过popup/background.js 中注入css
     var config = {
         container: body,
-        radius: 100,
+        radius: 75,
         maxOpacity: .5,
         minOpacity: 0,
         blur: .75
