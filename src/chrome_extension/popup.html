@@ -1,38 +1,23 @@
+<!DOCTYPE html>
+
 <head>
     <script src="jquery-3.1.1.min.js"></script>
 </head>
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="popup.css" type="text/css" />
+<link rel="stylesheet" href="popup.css">
 
 <body>
-    <h2>网页视线追踪</h2>
-    <br>
-    <hr align=center color=#987cb9 size=1>
-    <form id="control">
-        <br>
-        <input name="start" id="start" type="button" value="启动">
-        <input name="suspend" id="suspend" type="button" value="暂停">
-        <br>
-        <br>
-        <hr align=center color=#987cb9 size=1>
-        <br>
-        <input name="generate" id="generate" type="button" value="输出">
-        <br>
-        <br>
-        <br>
-        <hr align=center color=#987cb9 size=1>
-        <br>
-        <input name="showGaze" type="checkbox" value="true" checked="on">显示视点
-        <input name="showTrace" type="checkbox" value="false">显示记录
-    </form>
-    <br>
-    <hr align=center color=#987cb9 size=1>
-    <br>
-    <p id="gazeData">x=<span id="gazeXid">0</span>,y=<span id="gazeYid">0</span></p>
-    <div id="output"></div>
+    <div class="title">GazeSense</div>
+    <div class="wrap">
+        <input name="start" id="start" type="button" value="Start">
+        <div class="input">
+            <input name="showGaze" type="checkbox" value="true" checked="on">Show Gaze Point
+            <input name="controlPage" type="checkbox" value="true" checked="on">Control page
+            <input name="showImage" type="checkbox" value="true" checked="on">Show image
+        </div>
+        <input name="generate" id="generate" type="button" value="Show Result">
+    </div>
     <!-- JavaScript and HTML must be in separate files for security. -->
     <script src="popup.js"></script>
-    <script src="html2canvas.js"></script>
-    <!-- <script src="Message.js"></script> -->
 </body>
