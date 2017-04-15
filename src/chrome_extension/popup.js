@@ -1,12 +1,18 @@
 "use strict";
 var str1, str2;
-//得到从后台运行的 js 文件里的东西，即 socket.js
+//得到从后台运行的 js 文件里的东西，即 background.js
 var bgScript = chrome.extension.getBackgroundPage();
 //让变量存在后台，启动时检查变量来给页面赋值
 var isStart = bgScript.isStart;
+var isShowGaze = bgScript.isShowGaze;
+var isShowImage = bgScript.isShowImage;
+var isControlPage = bgScript.isControlPage;
 str1 = "Start";
 str2 = "Stop";
 var m_switch = $('#start');
+var showGaze = $('#showGaze');
+var showImage = $('#showImage');
+var controlPage = $('#controlPage');
 //js 文件加载时就启动
 changeState();
 
@@ -30,6 +36,21 @@ function changeState() {
   } else {
     m_switch.val(str2);
   }
+  if(isShowGaze){
+    showGaze.prop("checked",true);
+  } else{
+    showGaze.prop("undefined",false);
+  }
+  if(isShowImage){
+    showImage.prop("checked",true);
+  } else{
+    showImage.prop("undefined",false);
+  }
+  if(isControlPage){
+    controlPage.prop("checked",true);
+  } else{
+    controlPage.prop("undefined",false);
+  }
 }
 
 //图片输出
@@ -38,30 +59,33 @@ function Button2() {
 }
 //detect the user input
 $(document).ready(function () {
-  $("#showGaze").click(function () {
-    if ($("#showGaze").prop("checked") == true) {
-      bgScript.sendMessage("showGaze:on");
-    }
-    else {
-      bgScript.sendMessage("showGaze:off");
-    }
-  })
-  $("#showImage").click(function () {
-    if ($("#showImage").prop("checked") == true) {
-      bgScript.sendMessage("showImage:on");
-    }
-    else {
-      bgScript.sendMessage("showImage:off");
-    }
-  })
-  $("#controlPage").click(function () {
-    if ($("#controlPage").prop("checked") == true) {
-      bgScript.sendMessage("controlPage:on");
-    }
-    else {
-      bgScript.sendMessage("controlPage:off");
-    }
-  })
+  showGaze.change(function () {
+        if(showGaze.is(':checked')){
+          bgScript.setGazeStatus(true);
+          bgScript.sendMessage("showGaze:on");
+        }else{
+          bgScript.setGazeStatus(false);
+           bgScript.sendMessage("showGaze:off");
+        }
+    });
+     showImage.change(function () {
+        if(showImage.is(':checked')){
+          bgScript.setImageStatus(true);
+          bgScript.sendMessage("showImage:on");
+        }else{
+          bgScript.setImageStatus(false);
+          bgScript.sendMessage("showImage:off");
+        }
+    });
+     controlPage.change(function () {
+        if(controlPage.is(':checked')){
+          bgScript.setControlStatus(true);
+          bgScript.sendMessage("controlPage:on");
+        }else{
+          bgScript.setControlStatus(false);
+          bgScript.sendMessage("controlPage:off");
+        }
+    });
   var listBox;
   listBox = $('#start');
   listBox.on('click', function () {
