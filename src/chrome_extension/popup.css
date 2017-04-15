@@ -2,24 +2,22 @@
 html{
     font-family: "Microsoft Yahei";
     height:auto;
-    font-size: 15px;
+    text-align: center;
 }
 .title{
     padding-bottom:5px;
-    font-size: 24px;
+    font-size: 25px;
 }
 body {
     color: #333;
-    overflow: hidden;
-    margin: 1px;
-    padding-top: 10px;
-    padding-bottom: 10px;
     background: white;
-    height:auto;
-    font-size: 12px ;
-    width: 100%;
+    height: auto;
+    font-size: 15px ;
+    padding-bottom:10px;
     position: relative;
     text-align: center;
+    vertical-align: middle;
+    width:160px;
 }
 input[type="checkbox"] {
     display: inline;
@@ -28,15 +26,15 @@ input[type="checkbox"] {
 }
 input[type="button"] {
     width: 110px;
-    height: 20px;
+    height: 25px;
     font-size: 15px;
 }
 .wrap{
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-.input{
+.checklist{
     text-align: left;
     padding-left: 2px;
     padding-top: 10px;

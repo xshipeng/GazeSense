@@ -1,5 +1,5 @@
 # GazeSense
-Gaze Point Analysis with Intel ReaSense SR300 Camera
+Gaze Point Analysis with Intel RealSense SR300 Camera
 
 ## Introduction
 ![Project Introduction](http://omn6gkuiy.bkt.clouddn.com/Project_Introduction.png)
@@ -12,9 +12,19 @@ Gaze Point Analysis with Intel ReaSense SR300 Camera
 * When the user click the "stop" button, the background.js will send the "stop" message to the server to stop the tracking process of the camera.
 * We will get an array whose element is also an three-element array. After calculating the relative position of the gaze data, the content.js will draw a heatmap on the current page based on the data collected before.
 
-## Dependencies
+## Dependencies(Mostly when compiling the C++ program)
 * Operating System: Windows 10 64bit
 * Runtime: Intel Realsense SDK
 * Chrome platform version: 50+
+* Lib Boost version: 1.62.0+
+* Websocket++
+* OpenCV 3.1.0
 
-## Extended the project
+## Extend the project
+* Since the User Interface is based on the Chrome Extension, changing the eye tracking device will be easier：the only thing you need to do is to combine the api of one particular device and use Websocket++ to establish the websocket server to transmit message with the chrome extension.
+* The data structure between the server and client is as following:
+1. Client to Server: 
+* string"start"--Start tracking the gaze of user
+* string"stop"--Stop tracking the gaze of user
+2. Server to Client:
+* arraybuffer[x,y]--The gaze data of user on screen

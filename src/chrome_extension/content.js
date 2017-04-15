@@ -1,3 +1,4 @@
+
 window.addEventListener("message", function (event) {
     if (event.data.type == "FROM_CURRENTPAGE") {
         console.log(event.data.text);
@@ -9,16 +10,18 @@ chrome.runtime.onMessage.addListener(
         if (request.type == "FROM_BACKGROUND") {
             console.log("processingdata...");
             var nArray = request.text;
+            console.log(nArray);
             var pArray = processData(nArray);
-            console.log(pArray); //
+            console.log(pArray);
             console.log("drawingdata...");
             drawing(pArray);
+           // drawing([{x:1000,y:300,value:300},{x:1500,y:500,value:100}]);
             // saveImage();
         }
     });
-console.log("insert,success!");
 
-function drawing(nArray) {
+
+function drawing(pArray) {
     var datacanvas = document.createElement("div");
     datacanvas.width = $(document).Width;
     datacanvas.height = $(document).Height;
@@ -33,7 +36,7 @@ function drawing(nArray) {
         blur: .75
     };
     var heatmapInstance = h337.create(config);
-    heatmapInstance.addData(nArray);
+    heatmapInstance.addData(pArray);
 }
 //保存图片
 // function saveImage() {
@@ -46,10 +49,13 @@ function drawing(nArray) {
 
 function processData(nArray) {
     var pArray = [];
+    var screenwidth = screen.width; //acquire the width of the screen
     var tabheight = screen.height - window.innerHeight;
+    var documentwidth = document.body.clientWidth; //acquire the width of the page
     for (var arr of nArray) {
+        arr[0] = arr[0] / screenwidth * documentwidth;//process the width to adapt page zoom
         arr[1] = arr[1] + arr[2] - tabheight;//dealing with the scroll data
-        arr[2] = 300;//delete the scroll data
+        arr[2] = 300;//set the default value for the heatmap drawing
         object = array2object(arr);//transform the array into object
         pArray.push(object);
     }
@@ -64,4 +70,5 @@ function array2object(arr) {
     console.log("2object_success");
     return object;
 }
+console.log("insert,success!");
 

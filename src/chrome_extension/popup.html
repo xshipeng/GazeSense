@@ -1,23 +1,25 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <script src="jquery-3.1.1.min.js"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="popup.css">
 </head>
-
-<meta charset="UTF-8">
-<link rel="stylesheet" href="popup.css">
 
 <body>
     <div class="title">GazeSense</div>
     <div class="wrap">
         <input name="start" id="start" type="button" value="Start">
-        <div class="input">
-            <input name="showGaze" type="checkbox" value="true" checked="on">Show Gaze Point
-            <input name="controlPage" type="checkbox" value="true" checked="on">Control page
-            <input name="showImage" type="checkbox" value="true" checked="on">Show image
+        <div class="checklist">
+            <input name="showGaze" id="showGaze" type="checkbox" checked="on">Show Gaze Point</br>
+            <input name="showImage" id="showImage" type="checkbox">Show image</br>
+            <input name="controlPage" id="controlPage" type="checkbox">Control page</br>
         </div>
         <input name="generate" id="generate" type="button" value="Show Result">
     </div>
     <!-- JavaScript and HTML must be in separate files for security. -->
+    <script src="jquery-3.1.1.min.js"></script>
     <script src="popup.js"></script>
 </body>
+
+</html>

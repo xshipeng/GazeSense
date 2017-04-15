@@ -1,9 +1,9 @@
 "use strict";
 var str1, str2;
 //得到从后台运行的 js 文件里的东西，即 socket.js
-var bgscrpt = chrome.extension.getBackgroundPage();
+var bgScript = chrome.extension.getBackgroundPage();
 //让变量存在后台，启动时检查变量来给页面赋值
-var isStart = bgscrpt.isStart;
+var isStart = bgScript.isStart;
 str1 = "Start";
 str2 = "Stop";
 var m_switch = $('#start');
@@ -12,16 +12,14 @@ changeState();
 
 //启动&停止
 function Button1() {
-
   if (m_switch.val() == str1) {
-    //调用 sokcet.js的方法
-    bgscrpt.websocketInit(); //启动
+    bgScript.websocketInit(); //启动
     m_switch.val(str2);
-    bgscrpt.setStatus(true);
+    bgScript.setStatus(true);
   } else {
-    bgscrpt.websocketShutdown(); //停止
+    bgScript.websocketShutdown(); //停止
     m_switch.val(str1);
-    bgscrpt.setStatus(false);
+    bgScript.setStatus(false);
   }
 }
 
@@ -38,15 +36,39 @@ function changeState() {
 function Button2() {
   handlePage();
 }
-
+//detect the user input
 $(document).ready(function () {
-  var listbox;
-  listbox = $('#start');
-  listbox.on('click', function () {
+  $("#showGaze").click(function () {
+    if ($("#showGaze").prop("checked") == true) {
+      bgScript.sendMessage("showGaze:on");
+    }
+    else {
+      bgScript.sendMessage("showGaze:off");
+    }
+  })
+  $("#showImage").click(function () {
+    if ($("#showImage").prop("checked") == true) {
+      bgScript.sendMessage("showImage:on");
+    }
+    else {
+      bgScript.sendMessage("showImage:off");
+    }
+  })
+  $("#controlPage").click(function () {
+    if ($("#controlPage").prop("checked") == true) {
+      bgScript.sendMessage("controlPage:on");
+    }
+    else {
+      bgScript.sendMessage("controlPage:off");
+    }
+  })
+  var listBox;
+  listBox = $('#start');
+  listBox.on('click', function () {
     Button1();
   });
-  listbox = $('#generate');
-  listbox.on('click', function () {
+  listBox = $('#generate');
+  listBox.on('click', function () {
     Button2();
   });
 });
@@ -62,7 +84,7 @@ function handlePage() {
   // chrome.tabs.executeScript({
   //   file: "html2canvas.js"
   // });
-  var nArray = bgscrpt.dataArray;
+  var nArray = bgScript.dataArray;
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { type: "FROM_BACKGROUND", text: nArray });
   });

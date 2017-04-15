@@ -1,14 +1,11 @@
-// "use strict";
-
 var ws;
-//var timer1;
 var START_FLAG = 0;
 var isStart = false;
 var dataArray = [];
 var scrollHeight = 0;
 function websocketInit() {
   ws = new WebSocket("ws://localhost:8181");
-  ws.binaryType = "arraybuffer";//set the type of received data:array, teh default type is bolb
+  ws.binaryType = "arraybuffer";//set the type of received data:array, the default type is bolb
   ws.onopen = function (event) {
     chrome.tabs.executeScript({
       file: 'jquery-3.1.1.min.js'
@@ -46,27 +43,13 @@ function websocketShutdown() {
   sendMessage("stop");
   ws.close();
 }
-
-function websocketContinue() {
-  if (START_FLAG !== 1)
-    return;
-  sendMessage("continue");
-  //timer1=dataStart(timer1);
-}
 //query information from the server
 function websocketQuery() {
   if (START_FLAG !== 1)
     return;
   sendMessage("query");
 }
-function websocketSuspend() {
-  if (START_FLAG !== 1)
-    return;
-  sendMessage("suspend");
-  //dataEnd(timer1);
-}
-
-//websocket发送消息
+//send message to server
 function sendMessage(data) {
   console.log("Send:" + data);
   ws.send(data);
@@ -77,10 +60,10 @@ function setStatus(state) {
   isStart = state;
 }
 
-setInterval(function () { websocketQuery(); }, 50);
+setInterval(function () { websocketQuery(); }, 100);
 
 chrome.runtime.onMessage.addListener(
   function (data, sender, sendResponse) {
-    console.log("ScrollHeight:" + data);
+    //console.log("ScrollHeight:" + data);
     scrollHeight = data;
-  });
+  });//receive the scrollheight from content.js
