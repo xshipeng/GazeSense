@@ -6,6 +6,10 @@ var START_FLAG = 0;
 var isStart = false;
 var dataArray = [];
 var scrollHeight = 0;
+// 显示视点状态记录，默认 true
+var isShowGaze = true;
+// 显示记录状态记录，默认 false
+var isShowTrace;
 function websocketInit() {
   ws = new WebSocket("ws://localhost:8181");
   ws.binaryType = "arraybuffer";//set the type of received data:array, teh default type is bolb
@@ -75,6 +79,14 @@ function sendMessage(data) {
 //设置状态，在 pop.js 运行
 function setStatus(state) {
   isStart = state;
+}
+//设置CheckBox状态，在 pop.js 运行
+function setGazeStatus(state) {
+  isShowGaze = state;
+}
+//设置CheckBox状态，在 pop.js 运行
+function setTraceStatus(state) {
+  isShowTrace = state;
 }
 
 setInterval(function () { websocketQuery(); }, 50);

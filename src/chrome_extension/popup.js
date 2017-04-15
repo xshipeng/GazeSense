@@ -4,9 +4,13 @@ var str1, str2;
 var bgscrpt = chrome.extension.getBackgroundPage();
 //让变量存在后台，启动时检查变量来给页面赋值
 var isStart = bgscrpt.isStart;
+var isShowGaze = bgscrpt.isShowGaze;
+var isShowTrace = bgscrpt.isShowTrace;
 str1 = "启动";
 str2 = "停止";
 var m_switch = $('#start');
+var showGaze = $('#showGaze');
+var showTrace = $('#showTrace');
 //js 文件加载时就启动
 changeState();
 
@@ -31,6 +35,16 @@ function changeState() {
     m_switch.val(str1);
   } else {
     m_switch.val(str2);
+  }
+  if(isShowGaze){
+    showGaze.prop("checked",true);
+  } else{
+    showGaze.prop("undefined",false);
+  }
+  if(isShowTrace){
+    showTrace.prop("checked",true);
+  } else{
+    showTrace.prop("undefined",false);
   }
 }
 //暂停&继续
@@ -57,6 +71,8 @@ $(document).ready(function () {
   var listbox;
   listbox = $('#start');
   listbox.on('click', function () {
+    
+    console.log("showGaze Change");
     Button1();
   });
   listbox = $('#suspend');
@@ -67,6 +83,25 @@ $(document).ready(function () {
   listbox.on('click', function () {
     Button3();
   });
+});
+
+$(document).ready(function () {
+    showGaze.change(function () {
+        console.log("showGaze Change");
+        if(showGaze.is(':checked')){
+          bgscrpt.setGazeStatus(true);
+        }else{
+          bgscrpt.setGazeStatus(false);
+        }
+    });
+    showTrace.change(function () {
+       console.log("showTrace Change");
+        if(showTrace.is(':checked')){
+            bgscrpt.setTraceStatus(true);
+        }else{
+            bgscrpt.setTraceStatus(false);
+        }
+    });
 });
 
 function handlePage() {
