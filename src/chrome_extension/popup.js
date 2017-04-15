@@ -1,6 +1,6 @@
 "use strict";
 var str1, str2;
-//得到从后台运行的 js 文件里的东西，即 socket.js
+//得到从后台运行的 js 文件里的东西，即 background.js
 var bgscrpt = chrome.extension.getBackgroundPage();
 //让变量存在后台，启动时检查变量来给页面赋值
 var isStart = bgscrpt.isStart;
