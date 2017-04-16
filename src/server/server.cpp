@@ -11,12 +11,16 @@ using websocketpp::lib::bind;
 typedef server::message_ptr message_ptr;
 volatile bool gazetracking = false;
 volatile bool expression = false;
-volatile bool showimage = false;
 volatile bool need_calibration = true;
 volatile bool cursorcontrol = false;
 volatile bool changepage = false;
 volatile bool teminateprocessing = false;
 volatile bool freshmessage = false;
+// 几个控制框
+volatile bool showGaze = false;
+volatile bool showImage = false;
+volatile bool controlPage = false;
+
 extern int ARR[2];
 static DWORD WINAPI ProcessingThread(PVOID pParam)
 {
@@ -33,17 +37,32 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 
 	// check for a special command to instruct the server to stop listening so
 	// it can be cleanly exited.
-	if (msg->get_payload() == "start") {
-		CreateThread(0, 0, ProcessingThread, NULL, 0, 0);
-		gazetracking = true;
+	swtich(msg->get_payload()){
+
+		case "start":		CreateThread(0, 0, ProcessingThread, NULL, 0, 0);gazetracking = true;break;
+		case "stop":		teminateprocessing = true;break;
+		case "stop_listening":		s->stop_listening();return;break;
+		case "showGaze_on":		showGaze=true;break;
+		case "showGaze_off":		showGaze=false;break;
+		case "showImage_on":		showImage=true;break;
+		case "showImage_off":		showImage=false;break;
+		case "controlPage_on":		controlPage=true;break;
+		case "controlPage_off":		controlPage=false;break;
 	}
-	if (msg->get_payload() == "stop") {
-		teminateprocessing = true;
-	}
-	if (msg->get_payload() == "stop_listening") {
-		s->stop_listening();
-		return;
-	}
+
+	// if (msg->get_payload() == "start") {
+	// 	CreateThread(0, 0, ProcessingThread, NULL, 0, 0);
+	// 	gazetracking = true;
+	// }
+	// else if (msg->get_payload() == "stop") {
+	// 	teminateprocessing = true;
+	// }
+	// else if (msg->get_payload() == "stop_listening") {
+	// 	s->stop_listening();
+	// 	return;
+	// }
+
+
 	if(need_calibration == false)
 	{
 		//std::stringstream ss_x;
@@ -55,10 +74,10 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 		try {
 			s->send(hdl, ARR, 2 * sizeof(int), websocketpp::frame::opcode::BINARY);
 			//s->send(hdl, msg->get_payload(), msg->get_opcode());
-		}		
+		}
 		catch (const websocketpp::lib::error_code& e) {
 			std::cout << "Sending message failed because: " << e
-				<< "(" << e.message() << ")" << std::endl;
+			<< "(" << e.message() << ")" << std::endl;
 		}
 	}
 }
