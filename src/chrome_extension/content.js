@@ -9,22 +9,10 @@ chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.type == "FROM_BACKGROUND") {
             console.log("processingdata...");
-
-            var nArray = [];
-            var pArray = [];
-
-            nArray=request.text;
-            // console.log(nArray);
-            for (var arr of nArray) {
-                console.log("N",arr[0],arr[1],arr[2]);
-            }
-
+            var nArray = request.text;
+            console.log(nArray);
             var pArray = processData(nArray);
-            // console.log(pArray);
-            for (var arr of pArray) {
-                console.log("P",arr.x,arr.y,arr.value,arr.screenwidth,arr.tabheight,arr.documentwidth);
-            }
-
+            console.log(pArray);
             console.log("drawingdata...");
             drawing(pArray);
            // drawing([{x:1000,y:300,value:300},{x:1500,y:500,value:100}]);
@@ -68,20 +56,17 @@ function processData(nArray) {
         arr[0] = arr[0] / screenwidth * documentwidth;//process the width to adapt page zoom
         arr[1] = arr[1] + arr[2] - tabheight;//dealing with the scroll data
         arr[2] = 300;//set the default value for the heatmap drawing
-        object = array2object(arr,screenwidth,tabheight,documentwidth);//transform the array into object
+        object = array2object(arr);//transform the array into object
         pArray.push(object);
     }
     return pArray;
 }
 
-function array2object(arr,screenwidth,tabheight,documentwidth) {
-    var object = { x: 0, y: 0, value: 0, screenwidth: 0 , tabheight: 0 , documentwidth: 0  };
+function array2object(arr) {
+    var object = { x: 0, y: 0, value: 0 };
     object.x = arr[0];
     object.y = arr[1];
     object.value = arr[2];
-    object.screenwidth = screenwidth;
-    object.tabheight = tabheight;
-    object.documentwidth = documentwidth;
     console.log("2object_success");
     return object;
 }
