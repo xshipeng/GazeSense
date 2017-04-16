@@ -7,12 +7,14 @@ var isStart = bgScript.isStart;
 var isShowGaze = bgScript.isShowGaze;
 var isShowImage = bgScript.isShowImage;
 var isControlPage = bgScript.isControlPage;
+var isCursorControl = bgScript.isCursorControl;
 str1 = "Start";
 str2 = "Stop";
 var m_switch = $('#start');
 var showGaze = $('#showGaze');
 var showImage = $('#showImage');
 var controlPage = $('#controlPage');
+var cursorControl = $('#cursorControl');
 //js 文件加载时就启动
 changeState();
 
@@ -22,11 +24,55 @@ function Button1() {
     bgScript.websocketInit(); //启动
     m_switch.val(str2);
     bgScript.setStatus(true);
+    stateInitiate();
   } else {
     bgScript.websocketShutdown(); //停止
     m_switch.val(str1);
     bgScript.setStatus(false);
   }
+}
+
+// 状态初始化
+function stateInitiate(){
+  showGaze.change(function () {
+    if(showGaze.is(':checked')){
+      bgScript.setGazeStatus(true);
+      bgScript.sendMessage("showGaze_on");
+    }else{
+      bgScript.setGazeStatus(false);
+      bgScript.sendMessage("showGaze_off");
+    }
+  });
+
+  showImage.change(function () {
+    if(showImage.is(':checked')){
+      bgScript.setImageStatus(true);
+      bgScript.sendMessage("showImage_on");
+    }else{
+      bgScript.setImageStatus(false);
+      bgScript.sendMessage("showImage_off");
+    }
+  });
+
+  controlPage.change(function () {
+    if(controlPage.is(':checked')){
+      bgScript.setControlStatus(true);
+      bgScript.sendMessage("controlPage_on");
+    }else{
+      bgScript.setControlStatus(false);
+      bgScript.sendMessage("controlPage_off");
+    }
+  });
+
+  cursorControl.change(function () {
+    if(cursorControl.is(':checked')){
+      bgScript.setCursorStatus(true);
+      bgScript.sendMessage("cursor_on");
+    }else{
+      bgScript.setCursorStatus(false);
+      bgScript.sendMessage("cursor_off");
+    }
+  });
 }
 
 //判断状态的方法
@@ -51,6 +97,11 @@ function changeState() {
   } else{
     controlPage.prop("undefined",false);
   }
+  if(isCursorControl){
+    cursorControl.prop("checked",true);
+  } else{
+    cursorControl.prop("undefined",false);
+  }
 }
 
 //图片输出
@@ -59,33 +110,7 @@ function Button2() {
 }
 //detect the user input
 $(document).ready(function () {
-  showGaze.change(function () {
-        if(showGaze.is(':checked')){
-          bgScript.setGazeStatus(true);
-          bgScript.sendMessage("showGaze:on");
-        }else{
-          bgScript.setGazeStatus(false);
-           bgScript.sendMessage("showGaze:off");
-        }
-    });
-     showImage.change(function () {
-        if(showImage.is(':checked')){
-          bgScript.setImageStatus(true);
-          bgScript.sendMessage("showImage:on");
-        }else{
-          bgScript.setImageStatus(false);
-          bgScript.sendMessage("showImage:off");
-        }
-    });
-     controlPage.change(function () {
-        if(controlPage.is(':checked')){
-          bgScript.setControlStatus(true);
-          bgScript.sendMessage("controlPage:on");
-        }else{
-          bgScript.setControlStatus(false);
-          bgScript.sendMessage("controlPage:off");
-        }
-    });
+  stateInitiate();
   var listBox;
   listBox = $('#start');
   listBox.on('click', function () {

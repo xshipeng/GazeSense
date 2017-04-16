@@ -1,13 +1,4 @@
-﻿  server.cpp
-c:\websocketpp\websocketpp\frame.hpp(831): warning C4267: “=”: 从“size_t”转换到“uint32_t”，可能丢失数据
-c:\websocketpp\websocketpp\common\md5.hpp(367): warning C4267: “+=”: 从“size_t”转换到“websocketpp::md5::md5_word_t”，可能丢失数据
-c:\websocketpp\websocketpp\sha1\sha1.hpp(176): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
-c:\program files (x86)\intel\rssdk\include\utilities\pxcsmoother.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-d:\program files\opencv 3.1\build\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-d:\program files\opencv 3.1\build\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-d:\program files\opencv 3.1\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-d:\program files\opencv 3.1\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  process.cpp
+﻿  process.cpp
 c:\program files (x86)\intel\rssdk\include\utilities\pxcsmoother.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 d:\program files\opencv 3.1\build\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 d:\program files\opencv 3.1\build\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -15,12 +6,10 @@ d:\program files\opencv 3.1\build\include\opencv2\core\utility.hpp : warning C48
 d:\program files\opencv 3.1\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 d:\documents\gaze-sense\src\server\process.cpp(24): warning C4005: “OUT_OF_SCREEN”: 宏重定义
   d:\documents\gaze-sense\src\server\process.h(24): note: 参见“OUT_OF_SCREEN”的前一个定义
-d:\documents\gaze-sense\src\server\process.cpp(500): warning C4244: “=”: 从“pxcI32”转换到“pxcF32”，可能丢失数据
-d:\documents\gaze-sense\src\server\process.cpp(501): warning C4244: “=”: 从“pxcI32”转换到“pxcF32”，可能丢失数据
-d:\documents\gaze-sense\src\server\process.cpp(503): warning C4244: “=”: 从“pxcF32”转换到“int”，可能丢失数据
-d:\documents\gaze-sense\src\server\process.cpp(504): warning C4244: “=”: 从“pxcF32”转换到“int”，可能丢失数据
-  正在生成代码...
-d:\documents\gaze-sense\src\server\process.cpp(573): warning C4715: “processing”: 不是所有的控件路径都返回值
-  LINK : 没有找到 D:\Documents\Gaze-Sense\src\server\Project1\x64\Debug\Project1.exe 或上一个增量链接没有生成它；正在执行完全链接
+d:\documents\gaze-sense\src\server\process.cpp(505): warning C4244: “=”: 从“pxcI32”转换到“pxcF32”，可能丢失数据
+d:\documents\gaze-sense\src\server\process.cpp(506): warning C4244: “=”: 从“pxcI32”转换到“pxcF32”，可能丢失数据
+d:\documents\gaze-sense\src\server\process.cpp(508): warning C4244: “=”: 从“pxcF32”转换到“int”，可能丢失数据
+d:\documents\gaze-sense\src\server\process.cpp(509): warning C4244: “=”: 从“pxcF32”转换到“int”，可能丢失数据
+d:\documents\gaze-sense\src\server\process.cpp(589): warning C4715: “processing”: 不是所有的控件路径都返回值
   Project1.vcxproj -> D:\Documents\Gaze-Sense\src\server\Project1\x64\Debug\Project1.exe
   Project1.vcxproj -> D:\Documents\Gaze-Sense\src\server\Project1\x64\Debug\Project1.pdb (Partial PDB)

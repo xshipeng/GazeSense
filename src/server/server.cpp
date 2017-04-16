@@ -67,9 +67,16 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg){
 	else if (received == "controlPage_off"){
 		controlPage = false;
 	}
+	else if (received == "cursor_on") {
+		cursorcontrol = true;
+	}
+	else if (received == "cursor_off") {
+		cursorcontrol = false;
+	}
 	else if (received == "stop_listening"){
 		s->stop_listening();
 	}
+
 }
 
 int main(){

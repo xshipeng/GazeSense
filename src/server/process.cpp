@@ -301,6 +301,10 @@ void UpdateTracking() //更新视线追踪窗口的位置
 }
 
 extern int processing(){
+	//记录上一次的控制标志
+	static bool showGaze_s = showGaze;
+	static bool showimage_s = showimage;
+
 	CvPoint lefteye, righteye; //用于标记左右两个眼球的中心
 	//定义变量用于下面的闭眼检测
 	FuncSwitch LeftEyeClose;
@@ -451,7 +455,7 @@ extern int processing(){
 				if (need_calibration){
 					// faced is the GazeCalibData instance
 					//PXCPointI32 calibp = {};
-					PXCFaceData::GazeCalibData::CalibrationState state = trackedface->QueryGazeCalibration()->QueryCalibrationState();
+					volatile PXCFaceData::GazeCalibData::CalibrationState state = trackedface->QueryGazeCalibration()->QueryCalibrationState();
 					switch (state){
 					case PXCFaceData::GazeCalibData::CALIBRATION_IDLE:
 						// Visual clue to the user that the calibration process starts, or LoadCalibData.
@@ -488,7 +492,8 @@ extern int processing(){
 						dominant_eye = trackedface->QueryGazeCalibration()->QueryCalibDominantEye();
 						need_calibration = false;
 						CloseCalibWindows();
-						InitTransWindow(&ghWndEyePoint, 100, RGB(255, 255, 0), L"EyePoint2");
+						if (showGaze)
+							InitTransWindow(&ghWndEyePoint, 100, RGB (255, 255, 0), L"EyePoint2");
 						break;
 					}
 				}
@@ -551,9 +556,20 @@ extern int processing(){
 		colorIm->ReleaseAccess(&color_data);
 		psm->ReleaseFrame(); //为下一帧的处理做好准备
 		if (showimage)
-			imshow("face_detection", color); //显示图像
+			imshow("face_detection", color);
 		else
 			destroyWindow("face_detection");
+
+		//显示/关闭视线点
+		if (showGaze != showGaze_s)//发生变化
+		{
+			showGaze_s = showGaze;
+			if (showGaze)
+				InitTransWindow(&ghWndEyePoint, 100, RGB (255, 255, 0), L"EyePoint2");
+			else
+				CloseTransWindow(&ghWndEyePoint);
+		}
+
 		if (teminateprocessing){
 			destroyWindow("face_detection");
 			break;

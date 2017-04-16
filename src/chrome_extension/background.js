@@ -9,6 +9,9 @@ var isShowGaze = true;
 var isShowImage = false;
 // 是否控制，默认 false
 var isControlPage = false;
+// 是否控制鼠标，默认 false
+var isCursorControl = false;
+
 function websocketInit() {
   ws = new WebSocket("ws://localhost:8181");
   ws.binaryType = "arraybuffer";//set the type of received data:array, the default type is bolb
@@ -76,6 +79,11 @@ function setImageStatus(state) {
 //设置CheckBox状态，在 pop.js 运行
 function setControlStatus(state) {
   isControlPage = state;
+}
+
+//设置CheckBox状态，在 pop.js 运行
+function setCursorStatus(state) {
+  isCursorControl = state;
 }
 
 setInterval(function () { websocketQuery(); }, 100);
