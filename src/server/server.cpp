@@ -3,6 +3,7 @@
 #include <websocketpp/server.hpp>
 #include <iostream>
 #include"process.h"
+#include <string>
 typedef websocketpp::server<websocketpp::config::asio> server;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
@@ -17,6 +18,7 @@ volatile bool cursorcontrol = false;
 volatile bool changepage = false;
 volatile bool teminateprocessing = false;
 volatile bool freshmessage = false;
+volatile bool showGaze=true;
 extern int ARR[2];
 static DWORD WINAPI ProcessingThread(PVOID pParam)
 {
@@ -26,41 +28,42 @@ static DWORD WINAPI ProcessingThread(PVOID pParam)
 	return 0;
 }
 void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
-	//std::cout << "Receive:" << msg->get_payload() << std::endl;
-	/* std::cout << "on_message called with hdl: " << hdl.lock().get()
-	<< " and message: " << msg->get_payload()
-	<< std::endl;*/
-
-	// check for a special command to instruct the server to stop listening so
-	// it can be cleanly exited.
-	if (msg->get_payload() == "start") {
-		CreateThread(0, 0, ProcessingThread, NULL, 0, 0);
-		gazetracking = true;
-	}
-	if (msg->get_payload() == "stop") {
-		teminateprocessing = true;
-	}
-	if (msg->get_payload() == "stop_listening") {
-		s->stop_listening();
-		return;
-	}
-	if(need_calibration == false)
-	{
-		//std::stringstream ss_x;
-		//ss_x << eye_point_x;
-		//std::stringstream ss_y;
-		//ss_y << eye_point_y;
-		//std::string sendmsg = ss_x.str() + "#" + ss_y.str();
-		//std::cout << sendmsg << std::endl;
+	std::string received=msg->get_payload();
+	if (received == "query"&&need_calibration == false) {
 		try {
 			s->send(hdl, ARR, 2 * sizeof(int), websocketpp::frame::opcode::BINARY);
-			//s->send(hdl, msg->get_payload(), msg->get_opcode());
-		}		
+		}
 		catch (const websocketpp::lib::error_code& e) {
 			std::cout << "Sending message failed because: " << e
 				<< "(" << e.message() << ")" << std::endl;
 		}
 	}
+	else if (received == "start") {
+		CreateThread(0, 0, ProcessingThread, NULL, 0, 0);
+		gazetracking = true;
+	}
+	else if (received == "stop") {
+		teminateprocessing = true;
+	}
+	else if (received == "showGaze:on") {
+		showGaze=true;
+	}
+	else if (received == "showGaze:off") {
+		showGaze=false;
+	}
+	else if (received == "showImage:on") {
+		showimage = true;
+	}
+	else if (received == "showImage:off") {
+		showimage = false;
+	}
+	else if (received == "controlPage:on") {}
+	else if (received == "controlPage:off") {}
+	 else if (received == "stop_listening") {
+		s->stop_listening();
+		return;
+	}
+
 }
 
 int main() {
