@@ -1,0 +1,42 @@
+
+html{
+    font-family: "Microsoft Yahei";
+    height:auto;
+    text-align: center;
+}
+.title{
+    padding-bottom:5px;
+    font-size: 25px;
+}
+body {
+    color: #333;
+    background: white;
+    height: auto;
+    font-size: 15px ;
+    padding-bottom:10px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width:160px;
+}
+input[type="checkbox"] {
+    display: inline;
+    vertical-align: middle;
+    padding:15px;
+}
+input[type="button"] {
+    width: 110px;
+    height: 25px;
+    font-size: 15px;
+}
+.wrap{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.checklist{
+    text-align: left;
+    padding-left: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

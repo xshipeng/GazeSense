@@ -1,0 +1,46 @@
+{
+  "manifest_version": 2,
+  "name": "GazeSense",
+  "description": "Gaze point analysis with Intel Realsense",
+  "version": "1.8",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Open the Interface",
+    "popup": "popup.html"
+  },
+  "permissions": [
+    "background",
+    "tabs",
+    "activeTab",
+    "notifications",
+    "storage",
+    "contextMenus",
+    "webNavigation",
+    "webRequest",
+    "webNavigation",
+    "webRequestBlocking",
+    "proxy",
+    "*://*/*",
+    "tabs",
+    "storage",
+    "unlimitedStorage",
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts":[
+    {
+      "matches":["*://*/*"],
+      "js":[
+        "content.js"
+      ]
+    }
+  ]
+}

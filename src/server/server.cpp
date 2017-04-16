@@ -3,6 +3,7 @@
 #include <websocketpp/server.hpp>
 #include <iostream>
 #include"process.h"
+#include <string>
 typedef websocketpp::server<websocketpp::config::asio> server;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
@@ -12,81 +13,70 @@ typedef server::message_ptr message_ptr;
 volatile bool gazetracking = false;
 volatile bool expression = false;
 volatile bool need_calibration = true;
-volatile bool cursorcontrol = false;
 volatile bool changepage = false;
 volatile bool teminateprocessing = false;
 volatile bool freshmessage = false;
-// å‡ ä¸ªæŽ§åˆ¶æ¡†
-volatile bool showGaze = false;
-volatile bool showImage = false;
+// ¼¸¸ö¿ØÖÆ¿ò
+volatile bool showGaze = true;
+volatile bool showimage = false;
+volatile bool cursorcontrol = false;
 volatile bool controlPage = false;
 
 extern int ARR[2];
-static DWORD WINAPI ProcessingThread(PVOID pParam)
-{
+
+static DWORD WINAPI ProcessingThread(PVOID pParam){
 	teminateprocessing = false;
 	need_calibration = true;
 	processing();
 	return 0;
 }
-void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
-	//std::cout << "Receive:" << msg->get_payload() << std::endl;
-	/* std::cout << "on_message called with hdl: " << hdl.lock().get()
-	<< " and message: " << msg->get_payload()
-	<< std::endl;*/
 
-	// check for a special command to instruct the server to stop listening so
-	// it can be cleanly exited.
-	swtich(msg->get_payload()){
-
-		case "start":		CreateThread(0, 0, ProcessingThread, NULL, 0, 0);gazetracking = true;break;
-		case "stop":		teminateprocessing = true;break;
-		case "stop_listening":		s->stop_listening();return;break;
-		case "showGaze_on":		showGaze=true;break;
-		case "showGaze_off":		showGaze=false;break;
-		case "showImage_on":		showImage=true;break;
-		case "showImage_off":		showImage=false;break;
-		case "controlPage_on":		controlPage=true;break;
-		case "controlPage_off":		controlPage=false;break;
-	}
-
-	// if (msg->get_payload() == "start") {
-	// 	CreateThread(0, 0, ProcessingThread, NULL, 0, 0);
-	// 	gazetracking = true;
-	// }
-	// else if (msg->get_payload() == "stop") {
-	// 	teminateprocessing = true;
-	// }
-	// else if (msg->get_payload() == "stop_listening") {
-	// 	s->stop_listening();
-	// 	return;
-	// }
-
-
-	if(need_calibration == false)
-	{
-		//std::stringstream ss_x;
-		//ss_x << eye_point_x;
-		//std::stringstream ss_y;
-		//ss_y << eye_point_y;
-		//std::string sendmsg = ss_x.str() + "#" + ss_y.str();
-		//std::cout << sendmsg << std::endl;
-		try {
+void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg){
+	std::string received = msg->get_payload();
+	if (received == "query" && need_calibration == false){
+		try{
 			s->send(hdl, ARR, 2 * sizeof(int), websocketpp::frame::opcode::BINARY);
-			//s->send(hdl, msg->get_payload(), msg->get_opcode());
 		}
-		catch (const websocketpp::lib::error_code& e) {
+		catch (const websocketpp::lib::error_code& e){
 			std::cout << "Sending message failed because: " << e
-			<< "(" << e.message() << ")" << std::endl;
+				<< "(" << e.message() << ")" << std::endl;
 		}
+	}
+	else if (received == "start"){
+		CreateThread(nullptr, 0, ProcessingThread, nullptr, 0, nullptr);
+		gazetracking = true;
+	}
+	else if (received == "stop"){
+		teminateprocessing = true;
+	}
+	else if (received == "showGaze_on"){
+		showGaze = true;
+	}
+	else if (received == "showGaze_off"){
+		showGaze = false;
+	}
+	else if (received == "showImage_on"){
+		showimage = true;
+	}
+	else if (received == "showImage_off"){
+		showimage = false;
+	}
+	else if (received == "controlPage_on"){
+		controlPage = true;
+	}
+	else if (received == "controlPage_off"){
+		controlPage = false;
+	}
+	else if (received == "stop_listening"){
+		s->stop_listening();
 	}
 }
 
-int main() {
+int main(){
 	// Create a server endpoint
 	server echo_server;
 
-	try {
+	try{
 		// Set logging settings
 		echo_server.set_access_channels(websocketpp::log::alevel::all);
 		echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
@@ -95,7 +85,7 @@ int main() {
 		echo_server.init_asio();
 
 		// Register our message handler
-		echo_server.set_message_handler(bind(&on_message, &echo_server, ::_1, ::_2));
+		echo_server.set_message_handler(bind(&on_message, &echo_server, _1, _2));
 
 		// Listen on port 8181
 		echo_server.listen(8181);
@@ -106,10 +96,10 @@ int main() {
 		// Start the ASIO io_service run loop
 		echo_server.run();
 	}
-	catch (websocketpp::exception const & e) {
+	catch (websocketpp::exception const& e){
 		std::cout << e.what() << std::endl;
 	}
-	catch (...) {
+	catch (...){
 		std::cout << "other exception" << std::endl;
 	}
 }
