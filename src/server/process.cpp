@@ -78,7 +78,6 @@ typedef DWORD(WINAPI *make_layered)(HWND, DWORD, BYTE, DWORD);
 static make_layered set_layered_window = NULL;
 static BOOL dll_initialized = FALSE;
 short calibBuffersize = 0;
-unsigned char* calibBuffer = NULL;
 int calib_status = 0;
 int dominant_eye = 0;
 

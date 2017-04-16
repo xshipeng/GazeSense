@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="1920" height="1080"></canvas>
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+
+        ctx.moveTo(700,400);
+        ctx.lineTo(700,800);
+        ctx.lineTo(1300,800);
+        ctx.lineTo(1300,400);
+        ctx.closePath();//填充或闭合 需要先闭合路径才能画
+        //空心三角形
+        ctx.strokeStyle="black";
+        ctx.stroke();
+
+    </script>
+
+</body>
+
+</html>
