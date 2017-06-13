@@ -2,7 +2,7 @@
 Gaze Point Analysis with Intel RealSense SR300 Camera
 
 ## Introduction
-![Project Introduction](http://omn6gkuiy.bkt.clouddn.com/Project_Introduction.png)
+![Project Introduction](http://omn6gkuiy.bkt.clouddn.com/Project%20Introduction%20%281%29.png)
 
 ## How dose it work?
 * Websocket Server is always running in the background and waiting for requests;
